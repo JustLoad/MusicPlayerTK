@@ -1,25 +1,26 @@
 # MusicPlayerTK
-A MusicPlayer made in Python with Tkinter
+> A MusicPlayer made in Python with Tkinter
 
 # Requirements
-Pygame:
-  ```
-  pip install pygame
-  ```
+###Pygame:
+```bash
+$ pip install pygame
+```
 
-Cairosvg:
+###Cairosvg:
+```bash
+$ pip install cairosvg
+```
 
-  ```
-  pip install cairosvg
-  ```
 Weasyprint and GTK libraries for Cairosvg:
+> https://weasyprint.readthedocs.io/en/latest/install.html
 
-  ```
-  https://weasyprint.readthedocs.io/en/latest/install.html
-  ```
-  
-Eyed3:
+###Eyed3:
+```bash
+$ pip install eyed3
+```
 
-  ```
-  pip install eyed3
-  ```
+###Mutagen:
+```bash
+$ pip install mutagen
+```
