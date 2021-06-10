@@ -7,7 +7,7 @@ import eyed3
 import io
 from pathlib import Path
 from PIL import Image, ImageTk
-
+from mutagen.flac import FLAC
 
 root = Tk()
 root.title("MusicPlayer")
@@ -27,24 +27,38 @@ def add_song():
     global audio_file
     global song
     #add song
-    song = filedialog.askopenfilename(title="Canzoni", filetypes=(("file mp3", "*.mp3"), ("file flac", "*.flac"), ("file wav", "*.wav"),))
+    song = filedialog.askopenfilename(title="Canzoni", filetypes=(("file mp3", "*.mp3"), ("file flac", "*.flac"),))
 
     #pick song image from metadata
-    audio_file = eyed3.load(song)
-    album_name = audio_file.tag.album
-    artist_name = audio_file.tag.artist
 
-    for image in audio_file.tag.images:
-        image_file = open("{0} - {1}({2}).png".format(artist_name, album_name, image.picture_type), "wb")
+    if Path(song).suffix == '.mp3':
 
-        image_file.write(image.image_data)
-        image_file.close()
+        audio_file = eyed3.load(song)
+        album_name = audio_file.tag.album
+        artist_name = audio_file.tag.artist
 
-        tempimage = "{0} - {1}({2}).png".format(artist_name, album_name, image.picture_type)
-        photo = ImageTk.PhotoImage(Image.open(tempimage).resize((200, 200)))
-        img_label = Label(control, image=photo, borderwidth=0)
-        img_label.image = photo
-        img_label.grid(row=1, column=1)
+        for image in audio_file.tag.images:
+            image_file = open("cover.jpg", "wb")
+
+            image_file.write(image.image_data)
+            image_file.close()
+
+            tempimage = "cover.jpg"
+
+
+    else:
+        var = FLAC(song)
+        pics = var.pictures
+        for p in pics:
+            if p.type == 3:  # front cover
+                with open("cover.jpg", "wb") as f:
+                    f.write(p.data)
+        tempimage = "cover.jpg"
+
+    photo = ImageTk.PhotoImage(Image.open(tempimage).resize((200, 200)))
+    img_label = Label(control, image=photo, borderwidth=0)
+    img_label.image = photo
+    img_label.grid(row=1, column=1)
 
     path = Path(song)
     pathwt = path.name.replace(".mp3", "").replace(".flac", "")
