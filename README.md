@@ -2,12 +2,12 @@
 > A MusicPlayer made in Python with Tkinter
 
 # Requirements
-###Pygame:
+### Pygame:
 ```bash
 $ pip install pygame
 ```
 
-###Cairosvg:
+### Cairosvg:
 ```bash
 $ pip install cairosvg
 ```
@@ -15,12 +15,12 @@ $ pip install cairosvg
 Weasyprint and GTK libraries for Cairosvg:
 > https://weasyprint.readthedocs.io/en/latest/install.html
 
-###Eyed3:
+### Eyed3:
 ```bash
 $ pip install eyed3
 ```
 
-###Mutagen:
+### Mutagen:
 ```bash
 $ pip install mutagen
 ```
