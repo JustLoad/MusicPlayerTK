@@ -1,11 +1,12 @@
-from tkinter import *
+import io
 import time
-import pygame
+from pathlib import Path
+from tkinter import *
 from tkinter import filedialog
+
 import cairosvg
 import eyed3
-import io
-from pathlib import Path
+import pygame
 from PIL import Image, ImageTk
 from mutagen.flac import FLAC
 
@@ -13,9 +14,9 @@ root = Tk()
 root.title("MusicPlayer")
 root.geometry("700x350")
 root.resizable(0, 0)
-root['background']='#1b1b1b'
+root["background"] = "#1b1b1b"
 
-#frame
+# frame
 titleframe = Frame(root, bg="#1b1b1b")
 titleframe.pack(pady=20)
 
@@ -26,12 +27,18 @@ control.pack(pady=20)
 def add_song():
     global audio_file
     global song
-    #add song
-    song = filedialog.askopenfilename(title="Canzoni", filetypes=(("file mp3", "*.mp3"), ("file flac", "*.flac"),))
+    # add song
+    song = filedialog.askopenfilename(
+        title="Canzoni",
+        filetypes=(
+            ("file mp3", "*.mp3"),
+            ("file flac", "*.flac"),
+        ),
+    )
 
-    #pick song image from metadata
+    # pick song image from metadata
 
-    if Path(song).suffix == '.mp3':
+    if Path(song).suffix == ".mp3":
 
         audio_file = eyed3.load(song)
         album_name = audio_file.tag.album
@@ -44,7 +51,6 @@ def add_song():
             image_file.close()
 
             tempimage = "cover.jpg"
-
 
     else:
         var = FLAC(song)
@@ -62,10 +68,12 @@ def add_song():
 
     path = Path(song)
     pathwt = path.name.replace(".mp3", "").replace(".flac", "")
-    my_label.config(text=pathwt, bg="#1b1b1b", fg="white", font=("Arial Rounded MT Bold", 16))
+    my_label.config(
+        text=pathwt, bg="#1b1b1b", fg="white", font=("Arial Rounded MT Bold", 16)
+    )
 
 
-#menu
+# menu
 my_menu = Menu(root)
 root.config(menu=my_menu)
 
@@ -102,10 +110,10 @@ def pausemusic(is_paused):
         paused = True
 
 
-#barra di statuto
+# barra di statuto
 def stime():
     current_time = pygame.mixer.music.get_pos() / 1000
-    converted_current_time = time.strftime('%M:%S', time.gmtime(current_time))
+    converted_current_time = time.strftime("%M:%S", time.gmtime(current_time))
     status_bar.config(text=converted_current_time)
 
     status_bar.after(1000, stime)
@@ -113,8 +121,6 @@ def stime():
 
 status_bar = Label(root, text="Tempo", bg="#1b1b1b", fg="white")
 status_bar.pack(fill=X, side=BOTTOM, ipady=2)
-
-
 
 # buttons images
 
@@ -131,11 +137,36 @@ image3_data = cairosvg.svg2png(url="images/stop.svg")
 image3 = Image.open(io.BytesIO(image3_data))
 stop_button_image = ImageTk.PhotoImage(image3.resize((100, 100)))
 
-
-play_button = Button(control, text="play", image=play_button_image, borderwidth=0, command=playmusic, font=("Arial Rounded MT Bold", 16), bg="#1b1b1b", fg="white")
-pause_button = Button(control, text="pause", image=pause_button_image, borderwidth=0,
-                      command=lambda: pausemusic(paused), font=("Arial Rounded MT Bold", 16), bg="#1b1b1b", fg="white")
-stop_button = Button(control, text="stop", image=stop_button_image, borderwidth=0, command=stopmusic, font=("Arial Rounded MT Bold", 16), bg="#1b1b1b", fg="white")
+play_button = Button(
+    control,
+    text="play",
+    image=play_button_image,
+    borderwidth=0,
+    command=playmusic,
+    font=("Arial Rounded MT Bold", 16),
+    bg="#1b1b1b",
+    fg="white",
+)
+pause_button = Button(
+    control,
+    text="pause",
+    image=pause_button_image,
+    borderwidth=0,
+    command=lambda: pausemusic(paused),
+    font=("Arial Rounded MT Bold", 16),
+    bg="#1b1b1b",
+    fg="white",
+)
+stop_button = Button(
+    control,
+    text="stop",
+    image=stop_button_image,
+    borderwidth=0,
+    command=stopmusic,
+    font=("Arial Rounded MT Bold", 16),
+    bg="#1b1b1b",
+    fg="white",
+)
 
 play_button.grid(row=1, column=2, padx=15)
 pause_button.grid(row=1, column=3, padx=15)
@@ -143,6 +174,5 @@ stop_button.grid(row=1, column=4, padx=15)
 
 my_label = Label(titleframe, bg="#1b1b1b", fg="white")
 my_label.grid(row=0, column=4)
-
 
 root.mainloop()
