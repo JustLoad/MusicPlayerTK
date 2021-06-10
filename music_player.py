@@ -23,13 +23,14 @@ titleframe.pack(pady=20)
 control = Frame(root, bg="#1b1b1b")
 control.pack(pady=20)
 
+song = ""
+
 
 def add_song():
-    global audio_file
     global song
     # add song
     song = filedialog.askopenfilename(
-        title="Canzoni",
+        title="Songs",
         filetypes=(
             ("file mp3", "*.mp3"),
             ("file flac", "*.flac"),
@@ -37,17 +38,17 @@ def add_song():
     )
 
     # pick song image from metadata
-
+    tempimage = ""
     if Path(song).suffix == ".mp3":
 
         audio_file = eyed3.load(song)
-        album_name = audio_file.tag.album
-        artist_name = audio_file.tag.artist
+        # album_name = audio_file.tag.album
+        # artist_name = audio_file.tag.artist
 
-        for image in audio_file.tag.images:
+        for im in audio_file.tag.images:
             image_file = open("cover.jpg", "wb")
 
-            image_file.write(image.image_data)
+            image_file.write(im.image_data)
             image_file.close()
 
             tempimage = "cover.jpg"
@@ -78,8 +79,8 @@ my_menu = Menu(root)
 root.config(menu=my_menu)
 
 song_menu = Menu(root, tearoff=0)
-my_menu.add_cascade(label="Canzoni", menu=song_menu)
-song_menu.add_command(label="aggiungi una canzone", command=add_song)
+my_menu.add_cascade(label="Songs", menu=song_menu)
+song_menu.add_command(label="add song", command=add_song)
 
 
 def playmusic():
@@ -110,7 +111,7 @@ def pausemusic(is_paused):
         paused = True
 
 
-# barra di statuto
+# status bar
 def stime():
     current_time = pygame.mixer.music.get_pos() / 1000
     converted_current_time = time.strftime("%M:%S", time.gmtime(current_time))
