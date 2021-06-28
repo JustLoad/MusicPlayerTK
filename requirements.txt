@@ -1,1 +1,4 @@
-pygame cairosvg eyed3 mutagen
+pygame
+cairosvg
+eyed3
+mutagen
